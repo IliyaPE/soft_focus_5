@@ -1,0 +1,34 @@
+- content_for :title do
+  = 'result on your picture'
+
+- if @image
+  .intro
+    .left
+      .picture= image_tag @image.file.url :half
+      .drop-here
+        %h2 This is your picture
+        %p
+          Drop another one to change
+          %br
+          or use the
+          = link_to 'legacy upload form', legacy_path
+    .middle
+    .right
+      .picture= image_tag @image.file.url :halfsoft
+      .download
+        = link_to '⇣ Download image', download_path(@image), :class => 'button'
+        %p
+          (limited to 2048px)
+- else
+  %h2 You do not have any uploaded pictures now
+  %p
+    Maybe you're looking for the 
+    = link_to 'home page', root_path
+    of this website.
+  %h2 But I just sent one??
+  %p
+    If you get this message after <strong>uploading</strong> a picture you should check your <strong>cookies</strong> settings, they are <strong>required</strong> for this website to work.
+  %p
+    You can
+    = link_to 'retry here', root_path
+    with your new settings or another picture.

@@ -1,0 +1,16 @@
+development:
+  clients:
+    default:
+      hosts: [localhost]
+      database: softfocus_development
+
+test:
+  clients:
+    default:
+      hosts: [localhost]
+      database: softfocus_test
+
+production:
+  clients:
+    default:
+      uri: <%= ENV["MONGO_URL"] %>

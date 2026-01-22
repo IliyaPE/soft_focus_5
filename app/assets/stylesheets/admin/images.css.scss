@@ -1,0 +1,71 @@
+.admin {
+  section#main {
+    min-height: 0;
+    #head {
+      margin-bottom: 0;
+      border-bottom: none;
+    }
+  }
+
+  figure {
+    font-family: ubuntu, sans-serif;
+    position: relative;
+    float: left;
+    padding: 6px;
+    margin: 8px;
+    background-color: black;
+    border: 1px solid #222;
+    color: black;
+    form.button_to {
+      margin: 0;
+      padding: 0;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      input {
+        font-size: 1em;
+        height: 1.3em;
+        line-height: 1.3em;
+        padding: 0 0.3em;
+      }
+      opacity: 0;
+      -webkit-transition: opacity 0.5s linear;
+    }
+    &:hover form.button_to {
+      opacity: 1;
+    }
+    img {
+      width: 220px;
+      height: 220px;
+    }
+    figcaption {
+      position: absolute;
+      top: 187px;
+      height: 30px;
+      background-color: rgba(0, 0, 0, 0.8);
+      width: 210px;
+      padding: 5px;
+      color: white;
+      line-height: 15px;
+      font-size: 12px;
+      .ip {}
+      .date {
+        float: right;
+      }
+      .download {
+        float: right;
+        clear: both;
+      }
+    }
+  }
+}
+
+nav.pagination {
+  text-align: center;
+  margin: 1em 0;
+
+  span {
+    display: inline-block;
+    margin: 0 0.2em;
+  }
+}

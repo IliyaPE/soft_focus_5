@@ -1,0 +1,17 @@
+.admin
+  #chart
+  - labels = []
+  - data = []
+  - downloads = []
+  - 60.downto(0) do |x|
+    - start = x.months.ago.beginning_of_month
+    - finish = start.end_of_month
+    - labels << start.to_time.to_i
+    - data << Image.where(:created_at => start..finish).count
+    - downloads << Image.where(:downloaded_at => start..finish).count
+  :javascript
+    var r = Raphael("chart", 1000, 100);
+    r.linechart(0, 0, 1000, 100, #{labels.to_json}, [#{data.to_json}, #{downloads.to_json}], {smooth: true, colors: ['#fff', '#a7a'], symbol: 'circle', width: 1});
+  = paginate @images
+  = render @images
+  = paginate @images

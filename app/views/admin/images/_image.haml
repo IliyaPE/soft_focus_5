@@ -1,0 +1,9 @@
+%figure
+  = button_to '✘', admin_image_path(image), :method => :delete, :confirm => 'Really?'
+  = link_to result_path(image) do
+    = image_tag image.file(:mini)
+    %figcaption
+      %span.ip= '⇨ ' + image.owner.ip
+      %span.date= l(image.created_at, :format => :short) + ' ⌚'
+      - if image.downloaded_at.present?
+        %span.download= l(image.downloaded_at, :format => :short) + ' ⇣'

@@ -1,0 +1,42 @@
+name: Rails
+on: [push]
+jobs:
+  specs:
+    runs-on: self-hosted
+    # runs-on: ubuntu-latest # Github VM
+    # services:
+    #   mongo:
+    #     image: mongo
+    #     ports:
+    #       - 27017:27017
+    steps:
+    - name: Checkout Code ⬇️
+      uses: actions/checkout@v1
+    # These first steps are not needed on the self-hosted worker, only for Github VMs
+    # - name: Install ruby 2.6
+    #   uses: actions/setup-ruby@v1
+    #   with:
+    #     ruby-version: 2.6.x
+    # - uses: actions/cache@v1
+    #   with:
+    #     path: vendor/bundle
+    #     key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+    #     restore-keys: |
+    #       ${{ runner.os }}-gems-
+    - name: Install ruby 💎
+      env:
+        RUBY_CONFIGURE_OPTS: --with-jemalloc
+        CONFIGURE_OPTS: --disable-install-rdoc
+      run: |
+        ( cd ~/.rbenv && git pull )
+        ( cd ~/.rbenv/plugins/ruby-build && git pull )
+        rbenv install -s
+        rbenv version
+    - name: Install gems 💎
+      run: |
+        gem install bundler --no-document --conservative -v '2.3.10'
+        bundle install --jobs 4 --retry 3
+    - name: Run specs 🐛
+      timeout-minutes: 1
+      run: |
+        bundle exec rspec -fd

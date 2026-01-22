@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Soft Focus</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,900&family=Inter:wght@400;600&family=Shrikhand&display=swap"
+    rel="stylesheet">
+  <%= stylesheet_link_tag 'landing_page' %>
+  <%= csrf_meta_tags %>
+</head>
+
+<body>
+  <main class="container">
+    <div class="noise-overlay"></div>
+    <div class="star-layer"></div>
+    <div class="content-left">
+
+
+      <div class="actions">
+        <button class="pill-btn primary">
+          Soften my photo
+        </button>
+
+        <button class="pill-btn secondary">
+          <span class="heart">♥</span> Donate
+        </button>
+      </div>
+    </div>
+
+    <div class="center-circle">
+      <button class="circle-btn">
+        Soft Focus<br>Lightroom<br>presets
+      </button>
+    </div>
+
+    <div class="content-right">
+      <div class="image-wrapper">
+        <!-- Main image is now the body background -->
+        <div class="solar-flare"></div>
+        <div class="sparkles">
+          <!-- Sparkles will be added via CSS/JS or SVGs -->
+          <div class="sparkle s1">✦</div>
+          <div class="sparkle s2">✦</div>
+          <div class="sparkle s3">✦</div>
+          <div class="sparkle s4">✦</div>
+          <div class="sparkle s5">✦</div>
+        </div>
+      </div>
+      <button class="pill-btn contact-btn">Contact</button>
+      <input type="file" id="hidden-upload" name="file" style="display: none;" accept="image/*">
+    </div>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const fileInput = document.getElementById('hidden-upload');
+      const softenBtn = document.querySelector('.pill-btn.primary');
+
+      if (softenBtn && fileInput) {
+        softenBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          fileInput.click();
+        });
+
+        fileInput.addEventListener('change', (e) => {
+          if (fileInput.files.length > 0) {
+            const file = fileInput.files[0];
+            const formData = new FormData();
+            formData.append('file', file);
+
+            // Visual feedback
+            const originalText = softenBtn.textContent;
+            softenBtn.textContent = 'Uploading...';
+            softenBtn.style.opacity = '0.7';
+            softenBtn.style.cursor = 'wait';
+
+            fetch('/upload', {
+              method: 'POST',
+              headers: {
+                'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+              },
+              body: formData
+            })
+              .then(response => response.json())
+              .then(data => {
+                if (data.id) {
+                  // Success: Redirect to the result page
+                  window.location.href = '/' + data.id;
+                } else {
+                  // Failure
+                  alert('Upload failed: ' + (data.error || 'Unknown error'));
+                  softenBtn.textContent = originalText;
+                  softenBtn.style.opacity = '1';
+                  softenBtn.style.cursor = 'pointer';
+                }
+              })
+              .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred during upload.');
+                softenBtn.textContent = originalText;
+                softenBtn.style.opacity = '1';
+                softenBtn.style.cursor = 'pointer';
+              });
+          }
+        });
+      }
+    });
+  </script>
+</body>
+
+</html>

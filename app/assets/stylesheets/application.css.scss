@@ -1,0 +1,397 @@
+@import "reset";
+
+$layout-width: 1000px;
+$background: #413;
+$text: #e08cb4;
+$link: #a79;
+$font: 'Damion', cursive;
+
+@mixin user-select($value) {
+  -webkit-touch-callout: $value;
+  -webkit-user-select: $value;
+  -khtml-user-select: $value;
+  -moz-user-select: $value;
+  -ms-user-select: $value;
+  -o-user-select: $value;
+  user-select: $value;
+}
+
+@mixin smooth($props, $duration) {
+  -moz-transition: $props $duration linear;
+  -o-transition: $props $duration linear;
+  -webkit-transition: $props $duration linear;
+  transition: $props $duration linear;
+}
+
+@mixin border-radius($radius: 5px) {
+  -webkit-border-radius: $radius;
+     -moz-border-radius: $radius;
+          border-radius: $radius;
+}
+
+@mixin box-shadow($shadow: 0 1px 3px rgba(0,0,0,.25)) {
+  -webkit-box-shadow: $shadow;
+     -moz-box-shadow: $shadow;
+          box-shadow: $shadow;
+}
+
+@mixin vertical-gradient($startColor: #555, $endColor: #333) {
+  background-color: mix($startColor, $endColor, 60%);
+  background-image: -moz-linear-gradient(top, $startColor, $endColor);
+  background-image: -ms-linear-gradient(top, $startColor, $endColor);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from($startColor), to($endColor));
+  background-image: -webkit-linear-gradient(top, $startColor, $endColor);
+  background-image: -o-linear-gradient(top, $startColor, $endColor);
+  background-image: linear-gradient(top, $startColor, $endColor);
+  background-repeat: repeat-x;
+}
+
+@mixin button-look($primaryColor, $secondaryColor) {
+  @include vertical-gradient($primaryColor, $secondaryColor);
+  border-color: $secondaryColor $secondaryColor darken($secondaryColor, 15%);
+  border-color: rgba(0,0,0,.1) rgba(0,0,0,.1) fadein(rgba(0,0,0,.1), 15%);
+}
+
+@mixin nice-button-hover {
+  @include button-look(lighten($text, 15%), darken($text, 0%));
+  color: darken($text, 50%);
+}
+
+@mixin nice-button-active {
+  $shadow: 0 1px 2px rgba(0,0,0,0.8);
+  @include box-shadow($shadow);
+  @include button-look(darken($text, 20%), darken($text, 15%));
+  border-color: rgba(0, 0, 0, 0.5);
+  color: darken($text, 60%);
+}
+
+@mixin nice-button-disabled {
+  color: #888;
+  @include smooth(all, 1s);
+  $shadow: 0 1px 2px rgba(0,0,0,0.8);
+  @include box-shadow($shadow);
+  @include button-look(#bbb, #ddd);
+  cursor: default;
+}
+
+@mixin nice-button {
+  font-size: 1.2em;
+  font-weight: normal;
+  padding: 3px 10px;
+  line-height: 30px;
+  display: block;
+  color: darken($text, 50%);
+  @include border-radius(3px);
+  $shadow: inset 0 1px 2px rgba(255,255,255,0.8), 0 1px 2px rgba(0,0,0,0.8);
+  @include box-shadow($shadow);
+  @include button-look($text, darken($text, 15%));
+  text-shadow: 0 1px 1px rgba(255,255,255,.75);
+  border: 1px solid darken($text, 30%);
+  border-bottom-color: darken($text, 40%);
+  cursor: pointer;
+  text-align: center;
+  @include user-select(none);
+  &:hover { @include nice-button-hover; }
+  &:active { @include nice-button-active; }
+  &.disabled { @include nice-button-disabled; }
+}
+
+body {
+  font-family: $font;
+  font-weight: 300;
+  background: #cbc image-url('bg.png');
+  font-size: 1.2em;
+  color: $text;
+}
+
+p {
+  line-height: 1.3em;
+  text-align: justify;
+}
+
+a {
+  color: $link;
+  @include smooth(color, 0.2s);
+  text-decoration: none;
+  &.button {
+    @include nice-button;
+  }
+}
+
+a:hover {
+  text-decoration: none;
+  color: white;
+}
+
+strong {
+  font-weight: 400;
+  color: white;
+}
+
+section#head {
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 0.5em 0;
+  margin-bottom: 3em;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+header, footer, div.content {
+  width: $layout-width;
+  margin: 0 auto;
+  display: block;
+}
+
+header {
+  h1 {
+    color: $text;
+    font-weight: 400;
+    font-size: 2.5em;
+    display: inline;
+    em {
+      font-style: normal;
+      color: white;
+    }
+  }
+  p {
+    float: right;
+    line-height: 2.5em;
+  }
+}
+
+.alert {
+  color: #f94;
+  padding: 0.7em 0;
+  font-size: 1em;
+  margin-bottom: 1em;
+  font-weight: 400;
+  margin-top: -1em;
+  img {
+    vertical-align: -40%;
+    margin-right: 0.5em;
+  }
+}
+
+section#main {
+  display: block;
+  background: $background image-url('6--3-2.png') center center;
+  min-height: 600px;
+  max-height: 800px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.5);
+}
+
+footer {
+  clear: both;
+  font-size: 0.8em;
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
+  margin-top: 1em;
+}
+
+footer:before {
+  content: '';
+  display: block;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 1em;
+}
+
+h2 {
+  font-weight: 400;
+  font-size: 2em;
+  color: white;
+  margin: 0.6em 0;
+}
+
+section#misc {
+  display: block;
+  border-top: 1px solid black;
+}
+
+form {
+  margin: 1em 0;
+  input[type=submit] {
+    @include nice-button;
+    font-family: $font;
+    display: inline-block;
+    vertical-align: middle;
+    cursor: pointer;
+  }
+  .uploader {
+    margin-right: 0.5em;
+    .filename {
+      width: 20em;
+      background-color: white;
+      color: black;
+      font-size: 1.2em;
+      font-weight: normal;
+      padding: 4px 10px;
+      line-height: 30px;
+      @include box-shadow(inset 0 0 3px #444);
+      border-top-left-radius: 3px;
+      border-bottom-left-radius: 3px;
+      text-shadow: none;
+    }
+    .action {
+      @include nice-button;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+    &:hover .action {
+      @include nice-button-hover;
+    }
+    &:active .action {
+      @include nice-button-active;
+    }
+  }
+}
+
+.error {
+  background: transparent image-url('warning.png') left center no-repeat;
+  padding-left: 40px;
+  line-height: 40px;
+  margin-top: 0.5em;
+  color: #fa6;
+  font-weight: normal;
+}
+
+.content:after {
+  clear: both;
+  content: '';
+  display: block;
+}
+
+.left {
+  float: left;
+  width: 410px;
+  position: relative;
+  .drop-here {
+    background: transparent image-url('curved_arrow.png') 50px 10px no-repeat;
+    padding: 30px 0 0 140px;
+    height: 120px;
+    h2 {
+      margin: 0.2em 0;
+    }
+    p {
+      color: $text;
+    }
+  }
+  .error {
+    position: absolute;
+    top: 100px;
+    left: 40px;
+    line-height: 1.2em;
+    width: 280px;
+  }
+}
+
+#dropbox, #process-progress {
+  width: 400px;
+  height: 267px;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.8);
+  text-align: center;
+  font-size: 2em;
+  color: white;
+  top: 3px;
+  left: 3px;
+  opacity: 0;
+  vertical-align: middle;
+  z-index: 2;
+  &.drop-over {
+    opacity: 1;
+  }
+  p {
+    position: relative;
+    top: 50%;
+    margin-top: -1em;
+    text-align: center;
+  }
+}
+
+#upload-progress {
+  position: absolute;
+  display: none;
+  top: 200px;
+  left: 50px;
+  width: 300px;
+}
+
+#process-progress {
+  display: none;
+  opacity: 1;
+}
+
+.middle {
+  float: left;
+  width: $layout-width - 410 - 410;
+  height: 300px;
+  background: transparent image-url('rarrow.png') 40px center no-repeat;
+  position: relative;
+  #next_demo {
+    position: absolute;
+    width: 110px;
+    top: 190px;
+    left: 26px;
+  }
+}
+.right {
+  float: right;
+  position: relative;
+  width: 410px;
+  .download {
+    background: transparent image-url('lcurved_arrow.png') 280px 30px no-repeat;
+    padding: 40px 150px 0 0;
+    text-align: right;
+    height: 120px;
+    a {
+      /*background-image: image-url('download.png');*/
+      margin-bottom: 0.5em;
+      float: right;
+    }
+    p {
+      clear: both;
+      color: $text;
+      text-align: right;
+    }
+  }  
+}
+
+.picture {
+  width: 410px;
+  background: transparent image-url('shadow.png') center bottom no-repeat;
+  padding-bottom: 16px;
+  @include user-select(none);
+  img {
+    margin: 0 auto;
+    border: 3px solid white;
+    display: block;
+    max-width: 400px;
+    max-height: 400px;
+  }
+}
+
+.source {
+  text-align: right;
+  font-size: 0.8em;
+  margin: 0.5em 0;
+}
+
+.camera {
+  background: transparent image-url('lens.png') right top no-repeat;
+  min-height: 48px;
+  line-height: 48px;
+}
+
+.hat {
+  background: transparent image-url('hat.png') right top no-repeat;
+  min-height: 48px;
+  line-height: 48px;
+}
+
+.share {
+  background: transparent image-url('share.png') right top no-repeat;
+  min-height: 48px;
+  line-height: 48px;  
+}
+
+@import "uniform";
+@import "admin/*";

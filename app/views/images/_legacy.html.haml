@@ -1,0 +1,10 @@
+- content_for :title do
+  = 'legacy upload form'
+
+%h2 Legacy upload form
+%p Use this form to upload your picture if you can't drop the file on the main page.
+= form_tag '/upload', :multipart => true, :class => 'legacy' do
+  = file_field_tag :file
+  = submit_tag 'Send ↗'
+  - if @image and @image.errors.any?
+    .error= @image.error_message

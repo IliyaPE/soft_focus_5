@@ -1,0 +1,24 @@
+!!!
+%html{:lang => 'en'}
+  %head
+    %title= 'SoftFocus.me ★ ' + (content_for?(:title) ? yield(:title) : "easily apply soft focus effect to your pictures online!")
+    %meta{:name => 'Description', :content => "SoftFocus.me allows you to easily apply soft focus (or soft blur) effect to your pictures online. Give it a try it's free!"}
+    %meta{:'http-equiv' => "Content-Type", :content => "text/html; charset=utf-8"}
+    %meta{:name => 'viewport', :content => 'initial-scale=1.0, width=1024'}
+    = stylesheet_link_tag 'https://fonts.googleapis.com/css?family=Damion:400,300,700,200', "application", :media => "all"
+    = javascript_include_tag "application"
+    = favicon_link_tag "/favicon.png"
+    = csrf_meta_tags
+  %body
+    %section#main
+      %section#head
+        %header
+          %h1
+            = link_to raw("<em>Soft</em>Focus"), "/"
+          %p Turn your pictures into art, it's dead-simple!
+      %div.content= yield
+    %section#misc
+      %div.content= render 'shared/misc'
+      %footer
+        Designed, built & hosted by 
+        = link_to 'Adrien Rey-Jarthon', 'https://adrienjarthon.com'
