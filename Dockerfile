@@ -28,3 +28,6 @@ EXPOSE 3000
 
 # Start server
 CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
+
+# Make Paperclip storage writable inside container
+RUN mkdir -p /app/public/system && chmod -R 777 /app/public/system
