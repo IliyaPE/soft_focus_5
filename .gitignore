@@ -18,4 +18,5 @@
 public/assets
 public/system
 
-webrat.log
+webrat.log.DS_Store
+.DS_Store
