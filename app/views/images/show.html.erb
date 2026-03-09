@@ -2,16 +2,12 @@
   <div class="overlay noise"></div>
   <div class="overlay stars"></div>
 
-  <div class="content-left result-page">
-    <h1 class="title">
-      Your picture is <span>ready</span>
-    </h1>
-    
-    <div class="actions" style="margin-top: 4cqw;">
+  <div class="content-left result-page" style="top: 80%;">
+    <div class="actions">
       <a href="<%= download_path(@image) %>" class="pill-btn primary">
         Download 2048px
       </a>
-      <a href="/" class="pill-btn secondary">
+      <a href="/" class="pill-btn secondary" style="margin-left: 0; margin-top: 1cqw;">
         Soften another one
       </a>
     </div>
@@ -39,11 +35,13 @@
 <style>
 .comparison-container {
   position: absolute;
-  top: 50%;
-  right: 5%;
-  transform: translateY(-50%);
-  width: 50cqw;
-  height: 50cqw;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60cqw;
+  height: 60cqw;
+  max-width: 80vh;
+  max-height: 80vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -61,8 +59,8 @@
 }
 
 .image-comparison img {
-  width: 50cqw;
-  height: 50cqw;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   display: block;
 }
