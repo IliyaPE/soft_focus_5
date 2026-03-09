@@ -2,7 +2,7 @@
   <div class="overlay noise"></div>
   <div class="overlay stars"></div>
 
-  <div class="content-left result-page" style="top: 80%;">
+  <div class="content-left result-page" style="top: 30%; z-index: 10;">
     <div class="actions">
       <a href="<%= download_path(@image) %>" class="pill-btn primary">
         Download 2048px
@@ -54,6 +54,8 @@
   overflow: hidden;
   box-shadow: 0 2cqw 5cqw rgba(0,0,0,0.3);
   border: 0.1cqw solid rgba(255,255,255,0.2);
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .image-comparison img {
@@ -62,6 +64,8 @@
   object-fit: contain; /* Using contain to prevent broken proportions */
   background: rgba(0,0,0,0.5); /* Add a backdrop for images that aren't square */
   display: block;
+  pointer-events: none;
+  -webkit-user-drag: none;
 }
 
 .image-before {
@@ -157,7 +161,10 @@ document.addEventListener('DOMContentLoaded', () => {
     afterImage.style.clipPath = `inset(0 0 0 ${position}%)`;
   };
 
-  slider.addEventListener('mousedown', () => isResizing = true);
+  slider.addEventListener('mousedown', (e) => {
+    isResizing = true;
+    e.preventDefault(); // Prevents the blue text-selection highlight when dragging
+  });
   window.addEventListener('mouseup', () => isResizing = false);
   window.addEventListener('mousemove', moveSlider);
   
