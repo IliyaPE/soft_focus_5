@@ -2,15 +2,13 @@
   <div class="overlay noise"></div>
   <div class="overlay stars"></div>
 
-  <div class="content-left result-page" style="top: 30%; z-index: 10;">
-    <div class="actions">
-      <a href="<%= download_path(@image) %>" class="pill-btn primary">
-        Download 2048px
-      </a>
-      <a href="/" class="pill-btn secondary" style="margin-left: 0; margin-top: 1cqw;">
-        Soften another one
-      </a>
-    </div>
+  <div class="result-actions" style="position: absolute; top: 4%; left: 4%; z-index: 50; display: flex; flex-direction: column; gap: 1.5cqw;">
+    <a href="<%= download_path(@image) %>" class="pill-btn primary" style="padding: 1cqw 3cqw; font-size: 1.8cqw;">
+      Download 2048px
+    </a>
+    <a href="/" class="pill-btn secondary" style="margin-left: 0; padding: 0.8cqw 2cqw; font-size: 1.2cqw;">
+      Soften another one
+    </a>
   </div>
 
   <div class="comparison-container">
@@ -171,5 +169,8 @@ document.addEventListener('DOMContentLoaded', () => {
   slider.addEventListener('touchstart', () => isResizing = true);
   window.addEventListener('touchend', () => isResizing = false);
   window.addEventListener('touchmove', moveSlider);
+
+  // Prevent browser ghost image dragging
+  container.addEventListener('dragstart', (e) => e.preventDefault());
 });
 </script>
