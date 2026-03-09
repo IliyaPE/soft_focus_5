@@ -6,6 +6,23 @@
     --text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
 }
 
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #000;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
 .noise-overlay {
     position: absolute;
     top: 0;
@@ -258,4 +275,103 @@
 .circle-btn:hover {
     transform: scale(1.05);
     background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.6), rgba(255, 150, 150, 0.8));
+}
+
+.image-wrapper {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 120%;
+    height: 100%;
+    mask-image: linear-gradient(to right, transparent 0%, black 40%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 40%);
+    z-index: 1;
+}
+
+.hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: contrast(1.1) saturate(1.2);
+}
+
+.contact-btn {
+    position: absolute;
+    bottom: 3rem;
+    right: 3rem;
+    z-index: 30;
+    background: #ff6b6b;
+    border: none;
+    font-size: 1rem;
+    padding: 0.5rem 1.5rem;
+    bottom: 5%;
+    right: 5%;
+    font-size: 1.5cqw;
+    padding: 0.6cqw 1.9cqw;
+}
+
+/* Sparkles */
+.sparkles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.sparkle {
+    position: absolute;
+    color: white;
+    font-size: 2rem;
+    text-shadow: 0 0 10px white, 0 0 20px #fff;
+    animation: twinkle 3s infinite ease-in-out;
+}
+
+.s1 {
+    top: 20%;
+    left: 30%;
+    animation-delay: 0s;
+    font-size: 3rem;
+}
+
+.s2 {
+    top: 30%;
+    right: 20%;
+    animation-delay: 1s;
+}
+
+.s3 {
+    bottom: 40%;
+    left: 50%;
+    animation-delay: 2s;
+    font-size: 1.5rem;
+}
+
+.s4 {
+    top: 10%;
+    right: 40%;
+    animation-delay: 0.5s;
+    font-size: 4rem;
+    opacity: 0.8;
+}
+
+.s5 {
+    bottom: 20%;
+    right: 10%;
+    animation-delay: 1.5s;
+}
+
+@keyframes twinkle {
+
+    0%,
+    100% {
+        transform: scale(0.8) rotate(0deg);
+        opacity: 0.6;
+    }
+
+    50% {
+        transform: scale(1.2) rotate(45deg);
+        opacity: 1;
+    }
 }
