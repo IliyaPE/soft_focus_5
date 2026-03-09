@@ -35,13 +35,11 @@
 <style>
 .comparison-container {
   position: absolute;
-  top: 45%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 60cqw;
-  height: 60cqw;
-  max-width: 80vh;
-  max-height: 80vh;
+  top: 50%;
+  right: 5%;
+  transform: translateY(-50%);
+  width: 50cqw;
+  height: 50cqw;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -61,7 +59,8 @@
 .image-comparison img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain; /* Using contain to prevent broken proportions */
+  background: rgba(0,0,0,0.5); /* Add a backdrop for images that aren't square */
   display: block;
 }
 
