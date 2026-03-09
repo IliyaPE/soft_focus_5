@@ -1,4 +1,5 @@
 class ImagesController < ApplicationController
+  layout 'modern'
   before_action :fetch_image, :only => [:show, :download]
 
   def show
