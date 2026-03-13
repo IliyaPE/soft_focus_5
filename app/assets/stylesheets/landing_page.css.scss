@@ -241,8 +241,7 @@ body {
     box-shadow:
         0 2cqw 5cqw rgba(255, 107, 107, 0.2),
         inset 0 0 2cqw rgba(255, 255, 255, 0.5),
-        inset 0.5cqw 0.5cqw 1cqw rgba(255, 255, 255, 0.9),
-        inset -0.5cqw -1cqw 4cqw rgba(255, 107, 107, 0.15);
+        inset 0.5cqw 0.5cqw 1cqw rgba(255, 255, 255, 0.9);
     backdrop-filter: blur(1cqw);
     -webkit-backdrop-filter: blur(1cqw);
     color: #fff;
@@ -257,6 +256,8 @@ body {
     text-shadow: 0 0.1cqw 0.5cqw rgba(255, 255, 255, 0.6), 0 2px 4px rgba(0, 0, 0, 0.1);
     position: relative;
     overflow: hidden;
+    border: none;
+    outline: none;
 }
 
 .circle-btn::after {
