@@ -14,6 +14,9 @@ class ImagesController < ApplicationController
   def new
   end
 
+  def donate
+  end
+
   def create
     @image = Image.new :file => params[:file], :owner_attributes => {:ip => request.remote_ip}
     if @image.save
