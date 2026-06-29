@@ -13,6 +13,9 @@ RUN apt-get update -qq && apt-get install -y \
 # Set directory
 WORKDIR /app
 
+# Create upload directory before anything else runs
+RUN mkdir -p /app/public/system && chmod 755 /app/public/system
+
 # Install gems
 COPY Gemfile Gemfile.lock ./
 RUN bundle install
@@ -26,8 +29,5 @@ RUN RAILS_ENV=production SECRET_KEY_BASE_DUMMY=1 bundle exec rake assets:precomp
 # Expose port
 EXPOSE 3000
 
-# Start server
+# Start web server (run Sidekiq separately: bundle exec sidekiq -C config/sidekiq.yml)
 CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
-
-# Make Paperclip storage writable inside container
-RUN mkdir -p /app/public/system && chmod -R 777 /app/public/system

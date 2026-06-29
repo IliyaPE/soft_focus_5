@@ -3,7 +3,6 @@ source 'https://rubygems.org'
 ruby "3.1.0"
 
 gem 'sassc-rails'
-gem 'coffee-rails'
 gem 'mini_racer'
 gem 'listen'
 gem 'rails', '~> 7.0.4'
@@ -15,6 +14,8 @@ gem 'mongoid-paperclip', github: 'jarthod/mongoid-paperclip', branch: 'fix-id-pa
 gem 'kaminari-mongoid'
 gem 'kaminari-actionview'
 gem 'puma'
+gem 'bcrypt'
+gem 'rack-attack'
 
 group :test, :development do
   gem 'capybara'

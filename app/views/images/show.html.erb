@@ -2,6 +2,13 @@
   <div class="overlay noise"></div>
   <div class="overlay stars"></div>
 
+<% if @image.status == 'failed' %>
+  <div class="processing-state">
+    <p class="processing-message error">Something went wrong while processing your photo.</p>
+    <a href="/" class="pill-btn secondary" style="margin-top: 2cqw;">Try another image</a>
+  </div>
+
+<% elsif @image.ready? %>
   <div class="result-actions" style="position: absolute; bottom: 5%; left: 5%; z-index: 50; display: flex; flex-direction: column; gap: 2cqw;">
     <a href="<%= download_path(@image) %>" class="pill-btn primary" style="padding: 1.35cqw 4cqw; font-size: 2.4cqw;">
       Download 2048px
@@ -30,9 +37,76 @@
       </div>
     </div>
   </div>
+
+<% else %>
+  <div class="processing-state" id="processing-state">
+    <div class="spinner"></div>
+    <p class="processing-message">Applying soft focus…</p>
+    <p class="processing-sub">This usually takes a few seconds</p>
+  </div>
+
+  <script>
+    (function poll() {
+      fetch('<%= image_status_path(@image) %>')
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          if (data.status === 'ready' || data.status === 'failed') {
+            window.location.reload();
+          } else {
+            setTimeout(poll, 2000);
+          }
+        })
+        .catch(function() { setTimeout(poll, 3000); });
+    })();
+  </script>
+<% end %>
 </div>
 
 <style>
+.processing-state {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2cqw;
+  z-index: 10;
+}
+
+.processing-message {
+  color: white;
+  font-size: 3cqw;
+  font-family: 'Fraunces', serif;
+  text-align: center;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+}
+
+.processing-message.error {
+  color: #ff8080;
+}
+
+.processing-sub {
+  color: rgba(255,255,255,0.6);
+  font-size: 1.6cqw;
+  font-family: 'Inter', sans-serif;
+  text-align: center;
+}
+
+.spinner {
+  width: 5cqw;
+  height: 5cqw;
+  border: 0.4cqw solid rgba(255,255,255,0.2);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
 .comparison-container {
   position: absolute;
   top: 50%;
@@ -55,7 +129,7 @@
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
   backdrop-filter: blur(1.5cqw);
   -webkit-backdrop-filter: blur(1.5cqw);
-  box-shadow: 
+  box-shadow:
     0 4cqw 8cqw rgba(0, 0, 0, 0.4),
     inset 0 0.1cqw 0.3cqw rgba(255, 255, 255, 0.6),
     0 0 0 0.1cqw rgba(255, 255, 255, 0.2),
@@ -79,8 +153,8 @@
 .image-comparison img {
   width: 100%;
   height: 100%;
-  object-fit: contain; /* Using contain to prevent broken proportions */
-  background: rgba(0,0,0,0.5); /* Add a backdrop for images that aren't square */
+  object-fit: contain;
+  background: rgba(0,0,0,0.5);
   display: block;
   pointer-events: none;
   -webkit-user-drag: none;
@@ -153,6 +227,7 @@
 }
 </style>
 
+<% if @image.ready? %>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   const container = document.getElementById('image-comparison');
@@ -162,35 +237,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const moveSlider = (e) => {
     if (!isResizing) return;
-    
+
     let x;
     if (e.type === 'touchmove') {
       x = e.touches[0].clientX - container.getBoundingClientRect().left;
     } else {
       x = e.clientX - container.getBoundingClientRect().left;
     }
-    
+
     let position = (x / container.offsetWidth) * 100;
-    
+
     if (position < 0) position = 0;
     if (position > 100) position = 100;
-    
+
     slider.style.left = `${position}%`;
     afterImage.style.clipPath = `inset(0 0 0 ${position}%)`;
   };
 
   slider.addEventListener('mousedown', (e) => {
     isResizing = true;
-    e.preventDefault(); // Prevents the blue text-selection highlight when dragging
+    e.preventDefault();
   });
   window.addEventListener('mouseup', () => isResizing = false);
   window.addEventListener('mousemove', moveSlider);
-  
+
   slider.addEventListener('touchstart', () => isResizing = true);
   window.addEventListener('touchend', () => isResizing = false);
   window.addEventListener('touchmove', moveSlider);
 
-  // Prevent browser ghost image dragging
   container.addEventListener('dragstart', (e) => e.preventDefault());
 });
 </script>
+<% end %>

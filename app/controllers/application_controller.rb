@@ -1,11 +1,8 @@
+require 'bcrypt'
+
 class ApplicationController < ActionController::Base
   protect_from_forgery
   helper_method :authenticated?
-  PASSWORD = if Rails.env.test?
-    'e5e9fa1ba31ecd1ae84f75caaa474f3a663f05f4'  # Fake password for testing ("secret")
-  else
-    'ce5e1f73cda2fed668eec0e4390711b7f3272a2c'  # Real password
-  end
   before_action :check_login
 
   protected
@@ -23,16 +20,23 @@ class ApplicationController < ActionController::Base
   end
 
   def check_login
-    authenticate_with_http_basic do |username, password|
-      @authenticated = (Digest::SHA1.hexdigest(password) == PASSWORD)
+    authenticate_with_http_basic do |_username, password|
+      @authenticated = if Rails.env.test?
+        password == 'secret'
+      else
+        digest = ENV['ADMIN_PASSWORD_DIGEST'].to_s
+        !digest.empty? && BCrypt::Password.new(digest) == password
+      end
     end
+  rescue BCrypt::Errors::InvalidHash
+    @authenticated = false
   end
 
   def not_found
-    render :text => 'Not found', :status => :not_found
+    render plain: 'Not found', status: :not_found
   end
 
   def forbidden
-    render :text => 'Forbidden', :status => :forbidden
+    render plain: 'Forbidden', status: :forbidden
   end
 end
