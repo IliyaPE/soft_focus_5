@@ -14,7 +14,6 @@ gem 'mongoid-paperclip', github: 'jarthod/mongoid-paperclip', branch: 'fix-id-pa
 gem 'kaminari-mongoid'
 gem 'kaminari-actionview'
 gem 'puma'
-gem 'bcrypt'
 gem 'rack-attack'
 
 group :test, :development do
