@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 ruby "3.1.0"
 
 gem 'sassc-rails'
+gem 'coffee-rails'
 gem 'mini_racer'
 gem 'listen'
 gem 'rails', '~> 7.0.4'
