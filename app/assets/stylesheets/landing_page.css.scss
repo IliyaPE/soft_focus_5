@@ -229,6 +229,26 @@ body {
     z-index: 20;
 }
 
+.soon-badge {
+    position: absolute;
+    top: -2cqw;
+    right: -2.5cqw;
+    width: 8.5cqw;
+    height: auto;
+    z-index: 25;
+    pointer-events: none;
+    animation: badgeFloat 6s ease-in-out infinite;
+}
+
+@keyframes badgeFloat {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-0.3cqw) rotate(3deg);
+    }
+}
+
 .circle-btn {
     width: 17.5cqw;
     height: 17.5cqw;
